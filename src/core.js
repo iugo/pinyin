@@ -132,6 +132,15 @@ module.exports = {
   parse,
   patchDict,
   genToken, // inner usage
+  convertToFirstLetter(str) {
+    return parse(str).reduce((acc, val) => {
+      const code = val.target.charCodeAt(0);
+      if (code < 48 || code > 122 || (code > 90 && code < 97) || (code > 57 && code < 65)) {
+        return acc;
+      }
+      return acc + val.target[0];
+    }, '')
+  },
   convertToPinyin (str, separator, lowerCase) {
     return parse(str).map(v => {
       if (lowerCase && v.type === PINYIN) {
